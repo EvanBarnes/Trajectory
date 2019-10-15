@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
-    public Transform other;
+    public GameObject player;
     public GameObject bullet;
+  private float timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,9 +16,63 @@ public class Enemy1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float rotation = Quaternion.LookRotation(other.position - transform.rotation);
-        transfrom.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
-        yield WaitForSeconds(1);
-        Instantiate(bullet, transform.position, transform.rotation);
+    float relmousey = player.transform.position.y;
+    float relmousex = player.transform.position.x;
+    float selfx = transform.position.x;
+    float selfy = transform.position.y;
+    float thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y)/(player.transform.position.x-transform.position.x)));
+    thetadeg = thetadeg * 180 / Mathf.PI;
+    
+    float lockPos = 0;
+    if (relmousey > selfy)
+    {
+      if (relmousex > selfx)
+      {
+        //tbd quad 3
+        thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y) / (player.transform.position.x - transform.position.x)));
+        thetadeg = thetadeg * 180 / Mathf.PI;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, thetadeg-90));
+        
+      }
+      else
+      {
+        //quadrent 4
+        thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y) / (player.transform.position.x - transform.position.x)));
+        thetadeg = thetadeg * 180 / Mathf.PI;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, thetadeg+90));
+        
+      }
+    }
+    else
+    {
+      if (relmousex > selfx)
+      {
+        //quadrent 2
+        thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y) / (player.transform.position.x - transform.position.x)));
+        thetadeg = thetadeg * 180 / Mathf.PI;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, thetadeg - 90));
+        
+      }
+      else
+      {
+        //quadrent 1
+        thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y) / (player.transform.position.x - transform.position.x)));
+        thetadeg = thetadeg * 180 / Mathf.PI;
+        
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, thetadeg+90));
+        
+      }
+    }
+    
+    if (timer > 1)
+    {
+      Instantiate(bullet, transform.position, transform.rotation);
+      timer = 0;
+      
+    }
+    timer += Time.deltaTime;
     }
 }

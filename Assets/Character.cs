@@ -92,7 +92,7 @@ public class Character : MonoBehaviour
         }
 
     }
-   void onCollisionEnter2D(collision2D collision)
+   void onCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.tag == "Enemy")
         {
