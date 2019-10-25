@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2270422418601464219}
   - component: {fileID: 1946616421282791693}
   - component: {fileID: 6817386195310253719}
-  - component: {fileID: 8214148152707224427}
+  - component: {fileID: 5910291655564052585}
   m_Layer: 0
   m_Name: BulletEvil
-  m_TagString: Enemy
+  m_TagString: EBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &8214148152707224427
+--- !u!114 &5910291655564052585
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4824104145597161021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af39eaa540c5f464bb8a2f7cc31cb17f, type: 3}
+  m_Script: {fileID: 11500000, guid: f25964c86367fd04984a6a8e023a5c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   otherObj: {fileID: 0}

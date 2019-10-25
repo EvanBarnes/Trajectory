@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy4 : MonoBehaviour
 {
-    public GameObject bullet;
+    public GameObject prefab;
   public GameObject player;
     private float timer;
     // Start is called before the first frame update
@@ -66,11 +66,13 @@ public class Enemy4 : MonoBehaviour
         
       }
     }
-    transform.Translate(Vector2.up * Time.deltaTime * 1);
+    transform.Translate(Vector2.up * Time.deltaTime * .75f);
   
     if (timer > 2)
     {
-      Instantiate(bullet, transform.position, transform.rotation);
+      GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
+
+      Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
       timer = 0;
       
     }

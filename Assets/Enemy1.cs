@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy1 : MonoBehaviour
 {
     public GameObject player;
-    public GameObject bullet;
+    public GameObject prefab;
   private float timer;
     // Start is called before the first frame update
     void Start()
@@ -69,7 +69,9 @@ public class Enemy1 : MonoBehaviour
     
     if (timer > 1)
     {
-      Instantiate(bullet, transform.position, transform.rotation);
+      GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
+
+      Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
       timer = 0;
       
     }

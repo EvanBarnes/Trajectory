@@ -6,6 +6,7 @@ public class Character : MonoBehaviour
 {
     public Object prefab;
     float lockPos;
+  public int health;
     Vector2 up;
     Vector2 down;
     Vector2 left;
@@ -70,6 +71,7 @@ public class Character : MonoBehaviour
         {
             GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
             Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+      print("clicked");
         }
         if (Input.GetKey(KeyCode.W))
         {
@@ -94,9 +96,6 @@ public class Character : MonoBehaviour
     }
    void onCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Enemy")
-        {
-            print("hit");
-        }
+    print("collision");
     }
 }
