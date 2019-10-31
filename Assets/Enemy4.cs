@@ -5,13 +5,23 @@ using UnityEngine;
 public class Enemy4 : MonoBehaviour
 {
     public GameObject prefab;
-  public GameObject player;
+  private GameObject player;
     private float timer;
     // Start is called before the first frame update
     void Start()
     {
-        
+    player = gameObject;
+    GameObject[] lst = GameObject.FindGameObjectsWithTag("Player");
+
+    foreach (GameObject it in lst)
+    {
+      if (it.tag == "Player")
+      {
+        player = it;
+      }
+
     }
+  }
 
     // Update is called once per frame
     void Update()

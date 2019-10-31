@@ -173,5 +173,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 313ee052c80c4654fa1870f213874582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  bullet: {fileID: 4824104145597161021, guid: c3178fa6e06076840ae731574ae54c9e, type: 3}
+  prefab: {fileID: 4824104145597161021, guid: c3178fa6e06076840ae731574ae54c9e, type: 3}

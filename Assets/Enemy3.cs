@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class Enemy3 : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-          
+    player = gameObject;
+    GameObject[] lst = GameObject.FindGameObjectsWithTag("Player");
+
+    foreach (GameObject it in lst)
+    {
+      if (it.tag == "Player")
+      {
+        player = it;
+      }
+
     }
+  }
 
     // Update is called once per frame
     void Update()

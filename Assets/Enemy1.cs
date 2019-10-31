@@ -4,25 +4,38 @@ using UnityEngine;
 
 public class Enemy1 : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
+
     public GameObject prefab;
   private float timer;
     // Start is called before the first frame update
     void Start()
     {
-        
+    
+    player = gameObject;
+    GameObject[] lst = GameObject.FindGameObjectsWithTag("Player");
+
+    foreach (GameObject it in lst)
+    {
+      if (it.tag == "Player")
+      {
+        player = it;
+      }
+
     }
+  }
 
     // Update is called once per frame
     void Update()
     {
+    
     float relmousey = player.transform.position.y;
     float relmousex = player.transform.position.x;
     float selfx = transform.position.x;
     float selfy = transform.position.y;
     float thetadeg = (Mathf.Atan((player.transform.position.y - transform.position.y)/(player.transform.position.x-transform.position.x)));
     thetadeg = thetadeg * 180 / Mathf.PI;
-    
+   
     float lockPos = 0;
     if (relmousey > selfy)
     {
