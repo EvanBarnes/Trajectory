@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Snip : Bullet
 {
-    // Start is called before the first frame update
-    
-  void home()
+  // Start is called before the first frame update
+  public bool e = false;
+  string tager = "Enemy";
+  public void Start()
+  {
+    if (e) { tager = "Player"; }
+  }
+
+  void home(GameObject[] lst)
   {
     GameObject player;
     float dist;
-    GameObject[] lst = GameObject.FindGameObjectsWithTag("Enemy");
+    
+    
     player = lst[0];
     dist = Mathf.Sqrt((Mathf.Pow((transform.position.x - player.transform.position.x), 2)) + (Mathf.Pow((transform.position.y - player.transform.position.y), 2)));
     foreach(GameObject it in lst)
@@ -75,7 +82,15 @@ public class Snip : Bullet
   }
   void OnCollisionEnter2D(Collision2D collision)
   {
-    home();
-
+    GameObject[] lst = GameObject.FindGameObjectsWithTag(tager);
+    if (lst.Length > 0)
+    {
+      home(lst);
+    }
+    else
+    {
+      collisioner(collision);
+    }
+     
   }
 }

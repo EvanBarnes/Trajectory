@@ -9,13 +9,23 @@ public class BigB : MonoBehaviour
   public GameObject snip;
   public GameObject speed;
   private float timer;
-
+  public int nhealth = 7;
   public void damage()
   {
+    
     int length = health.Length - 1;
-    health = health.Remove(length, length);
-
-
+    
+    health = health.Remove( length, 1);
+    nhealth = length;
+    print(nhealth);
+    if(nhealth == 0)
+    {
+      Destroy(transform.parent.gameObject);
+    }
+    GameObject[] lst = GameObject.FindGameObjectsWithTag("BossHealth");
+    int numbChild = lst[0].transform.childCount;
+    
+    Destroy(lst[0].transform.GetChild(numbChild - 1).gameObject);
   }
   public int getCurrentEnd()
   {
@@ -30,38 +40,39 @@ public class BigB : MonoBehaviour
   }
   public void SchoolShooter()
   {
-    print(health);
+    
     int curint = getCurrentEnd();
     if((curint % 3) == 0)
     {
       GameObject bullet = Instantiate(speed, transform.position, transform.rotation);
-      print("sp");
-   
+
+
     }
     else if ((curint % 2) == 0)
     {
       GameObject bullet = Instantiate(shotty, transform.position, transform.rotation);
-      print("sh");
+
+
     }
     else
     {
       GameObject bullet = Instantiate(snip, transform.position, transform.rotation);
-      print("sn");
+      
+
 
 
     }
-    
+
   }
   // Start is called before the first frame update
   void Start()
     {
+    
+    health = (health.Remove(health.Length - 1, 1) + "2");
+    
     health = health.Remove(1, 1);
-    print(health);
-    damage();
-    print(health);
-    damage();
-    print(health);
-    damage();
+    Physics2D.IgnoreLayerCollision(9, 9);
+
   }
 
     // Update is called once per frame
@@ -140,4 +151,7 @@ public class BigB : MonoBehaviour
     timer += 1;
     
   }
+  
+  
+  
 }

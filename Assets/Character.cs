@@ -11,11 +11,12 @@ public class Character : MonoBehaviour
     Vector2 down;
     Vector2 left;
     Vector2 right;
+  int nhealth = 3;
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
+    
+  }
 
     // Update is called once per frame
     void Update()
@@ -70,8 +71,7 @@ public class Character : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
-            Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-      print("clicked");
+      
         }
         if (Input.GetKey(KeyCode.W))
         {
@@ -94,8 +94,20 @@ public class Character : MonoBehaviour
         }
 
     }
-   void onCollisionEnter2D(Collision2D collision)
+  private void OnCollisionEnter2D(Collision2D collision)
+  {
+    if (collision.collider.CompareTag("EBullet"))
     {
-    print("collision");
+      nhealth -= 1;
+      
+      if (nhealth == 0)
+      {
+        Destroy(transform.parent.gameObject);
+      }
+      GameObject[] lst = GameObject.FindGameObjectsWithTag("Health");
+      int numbChild = lst[0].transform.childCount;
+
+      Destroy(lst[0].transform.GetChild(numbChild - 1).gameObject);
     }
+  }
 }

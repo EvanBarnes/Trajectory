@@ -12,6 +12,8 @@ TagManager:
   - RWall
   - Enemy
   - EBullet
+  - Health
+  - BossHealth
   layers:
   - Default
   - TransparentFX
@@ -21,9 +23,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Background
   - 
   - 
   - 
@@ -51,6 +53,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 4025069989
     locked: 0
   - name: Foreground
     uniqueID: 1426486503

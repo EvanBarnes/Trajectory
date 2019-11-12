@@ -88,4 +88,8 @@ public class Enemy4 : MonoBehaviour
     }
     timer += Time.deltaTime;
   }
+  public void damage()
+  {
+
+  }
 }

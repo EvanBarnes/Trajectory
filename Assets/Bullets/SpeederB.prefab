@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4110808780681960492}
   - component: {fileID: 8976653739062758326}
   - component: {fileID: 396615126430566977}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpeederB
   m_TagString: Bullet
   m_Icon: {fileID: 0}

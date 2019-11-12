@@ -76,4 +76,8 @@ public class Enemy3 : MonoBehaviour
     }
     transform.Translate(Vector2.up * Time.deltaTime * 1);
   }
+  public void damage()
+  {
+
+  }
 }
