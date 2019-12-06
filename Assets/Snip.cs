@@ -16,8 +16,10 @@ public class Snip : Bullet
   {
     GameObject player;
     float dist;
-    
-    
+
+    lst = GameObject.FindGameObjectsWithTag(tager);
+
+
     player = lst[0];
     dist = Mathf.Sqrt((Mathf.Pow((transform.position.x - player.transform.position.x), 2)) + (Mathf.Pow((transform.position.y - player.transform.position.y), 2)));
     foreach(GameObject it in lst)

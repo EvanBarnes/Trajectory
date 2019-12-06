@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class BigB : MonoBehaviour
 {
   string health = (Mathf.PI).ToString();
@@ -20,7 +20,7 @@ public class BigB : MonoBehaviour
     print(nhealth);
     if(nhealth == 0)
     {
-      Destroy(transform.parent.gameObject);
+      SceneManager.LoadScene("NoSuck");
     }
     GameObject[] lst = GameObject.FindGameObjectsWithTag("BossHealth");
     int numbChild = lst[0].transform.childCount;

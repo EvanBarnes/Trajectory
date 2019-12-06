@@ -14,6 +14,10 @@ TagManager:
   - EBullet
   - Health
   - BossHealth
+  - URWall
+  - ULWall
+  - DRWall
+  - DLWall
   layers:
   - Default
   - TransparentFX

@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Suck.unity
+    guid: 975bdad1db5ae3b4bad042720b1a72df
+  - enabled: 1
+    path: Assets/Scenes/NoSuck.unity
+    guid: 84c4b9ceadb46364a8e79850c4d7b8a2
   m_configObjects: {}
