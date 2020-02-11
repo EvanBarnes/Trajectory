@@ -24,12 +24,14 @@ public class eotate : MonoBehaviour
     if (collision.collider.CompareTag("Bullet"))
     {
       if (collision.collider.transform.GetComponent<Bullet>().damagable) { 
+
       meeple.GetComponent<BigB>().damage();
-      Destroy(collision.gameObject);
+      
+        collision.collider.transform.GetComponent<Bullet>().menCBC();
       }
       else
       {
-        Destroy(collision.gameObject);
+        
         collision.collider.transform.GetComponent<Bullet>().menCBC();
       }
     }

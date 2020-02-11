@@ -9,6 +9,7 @@ public class BigB : MonoBehaviour
   public GameObject snip;
   public GameObject speed;
   private float timer;
+  bool act = false;
   public int nhealth = 7;
   public void damage()
   {
@@ -140,13 +141,21 @@ public class BigB : MonoBehaviour
 
       }
     }
-    transform.Translate(Vector2.up * Time.deltaTime * 1);
-    if (timer > 50)
+    float distance = Mathf.Sqrt(Mathf.Pow(Mathf.Abs(player.transform.position.x - transform.position.x), 2) + Mathf.Pow(Mathf.Abs(player.transform.position.y - transform.position.y), 2));
+    if (distance <= 10) { act = true; }
+    if (act)
     {
+      if (distance <= 10) { act = true; }
+      {
+        transform.Translate(Vector2.up * Time.deltaTime * 1);
+        if (timer > 50)
+        {
 
-      SchoolShooter();  
-      timer = 0;
+          SchoolShooter();
+          timer = 0;
 
+        }
+      }
     }
     timer += 1;
     

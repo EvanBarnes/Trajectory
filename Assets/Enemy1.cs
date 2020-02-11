@@ -5,8 +5,8 @@ using UnityEngine;
 public class Enemy1 : MonoBehaviour
 {
     private GameObject player;
-
-    public GameObject prefab;
+  bool act = false;
+  public GameObject prefab;
   private float timer;
     // Start is called before the first frame update
     void Start()
@@ -80,13 +80,19 @@ public class Enemy1 : MonoBehaviour
       }
     }
     
-    if (timer > 1)
+    float distance = Mathf.Sqrt(Mathf.Pow(Mathf.Abs(player.transform.position.x - transform.position.x), 2) + Mathf.Pow(Mathf.Abs(player.transform.position.y - transform.position.y), 2));
+    if (distance <= 10) { act = true; }
+    if (act)
     {
-      GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
 
-      Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-      timer = 0;
-      
+      if (timer > 1)
+      {
+        GameObject bullet = Instantiate(prefab, transform.position, transform.rotation) as GameObject;
+
+        Physics2D.IgnoreCollision(bullet.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        timer = 0;
+
+      }
     }
     timer += Time.deltaTime;
     }

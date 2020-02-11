@@ -7,7 +7,7 @@ public class mapgen : MonoBehaviour
   // Start is called before the first frame update
   List<int> x = new List<int>();
   int[,] z = new int[10, 10];
-
+  gtile[,] tileList;
   void Start()
   {
     for (int i = 0; i < 20; i++) { x.Add(1); }
@@ -143,16 +143,24 @@ public class mapgen : MonoBehaviour
     {
       for (int j = 0; j < colLength; j++)
       {
+        Vector3 k = new Vector3();
+        k.x = 20 * j;
+        k.y = -17 * i;
+        gtile g;
         if (z[i, j] == 1)
         {
-          Vector3 k = new Vector3();
-          k.x = 20 * j;
-          k.y = -17 * i;
-          int r = Random.Range(0, 6);
           
-          GameObject g = Instantiate(Resources.Load("gridTemplates/Grid (" + r + ")") as GameObject);
-          g.transform.position = k;
+          
+
+          g = new gtile(Random.Range(0, 6), k, Random.Range(0, 14));
+          
+
         }
+        else
+        {
+          g = new gtile(k);
+        }
+        tileList[i, j] = g;
       }
     }
   }
@@ -168,3 +176,29 @@ public class mapgen : MonoBehaviour
         
     }
 }
+class gtile : MonoBehaviour{
+  int type;
+  int mplace;
+  Vector3 pos;
+  GameObject gobj;
+  bool ttile;
+
+  public gtile(int type, Vector3 pos, int mplace)
+  {
+    this.type = type;
+    this.pos = pos;
+    this.mplace = mplace;
+    this.ttile = true;
+    this.gobj = Instantiate(Resources.Load("gridTemplates/Grid (" +type + ")") as GameObject);
+    this.gobj.transform.position = this.pos;
+    
+  }
+  public gtile(Vector3 pos)
+  {
+    this.type = 7;
+    this.pos = pos;
+  }
+
+
+}
+

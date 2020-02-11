@@ -52,13 +52,23 @@ public class Bullet : MonoBehaviour
   }
     protected char collisioner(Collision2D collision)
     {
-    ContactPoint2D colpoints = collision.GetContact(0);
-    Tilemap tm = collision.collider.transform.GetComponent<Tilemap>();
-    Grid gd = tm.layoutGrid;
-    
-    TileBase t = tm.GetTile(gd.WorldToCell(colpoints.point));
-    Vector3Int t1 = gd.WorldToCell(transform.position);
-    Vector3Int t2 =gd.WorldToCell(colpoints.point);
+    Tilemap tm;
+    Grid gd;
+    TileBase t;
+    Vector3Int t1 = new Vector3Int(0, 0, 0);
+
+    Vector3Int t2 = new Vector3Int(0, 0, 0);
+    if (collision.collider.tag != "Enemy" && collision.collider.tag != "Player" && collision.collider.tag != "Bullet")
+    {
+      ContactPoint2D colpoints = collision.GetContact(0);
+       tm = collision.collider.transform.GetComponent<Tilemap>();
+       gd = tm.layoutGrid;
+
+       t= tm.GetTile(gd.WorldToCell(colpoints.point));
+       t1= gd.WorldToCell(transform.position);
+       t2= gd.WorldToCell(colpoints.point);
+      
+    }
     char returner = 'N';
     if (collision.collider.tag == "RWall")
     {
@@ -167,6 +177,13 @@ public class Bullet : MonoBehaviour
       }
 
     }
+    if(collision.collider.tag == "Enemy" && collision.collider.name != "PI"){
+      if (damagable == true)
+      {
+        Destroy(collision.collider.gameObject);
+      }
+      menCBC();
+    }
     if (deathcount == 4)
     {
       menCBC();
@@ -190,6 +207,7 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
       collisioner(collision);
+
       
     }
 }

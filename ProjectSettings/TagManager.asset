@@ -18,6 +18,9 @@ TagManager:
   - ULWall
   - DRWall
   - DLWall
+  - Speed
+  - Shot
+  - Snip
   layers:
   - Default
   - TransparentFX

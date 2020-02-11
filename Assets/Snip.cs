@@ -84,15 +84,31 @@ public class Snip : Bullet
   }
   void OnCollisionEnter2D(Collision2D collision)
   {
-    GameObject[] lst = GameObject.FindGameObjectsWithTag(tager);
+    if (collision.collider.tag == "Enemy" && collision.collider.name != "PI")
+    {
+      if (damagable == true)
+      {
+        
+        Destroy(collision.collider.gameObject);
+      }
+      menCBC();
+    }
+    else if (collision.collider.tag == "Bullet" || collision.collider.tag == "EBullet" || collision.collider.tag == "Snip" || collision.collider.tag == "Shot" || collision.collider.tag == "Speed")
+    {
+    }
+    else { 
+      GameObject[] lst = GameObject.FindGameObjectsWithTag(tager);
     if (lst.Length > 0)
     {
+
       home(lst);
+      deathcount++;
     }
     else
     {
       collisioner(collision);
     }
-     
+      damagable = true;
+     }
   }
 }

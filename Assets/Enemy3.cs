@@ -5,7 +5,8 @@ using UnityEngine;
 public class Enemy3 : MonoBehaviour
 {
     private GameObject player;
-    // Start is called before the first frame update
+  // Start is called before the first frame update
+  bool act = false;
     void Start()
     {
     player = gameObject;
@@ -74,7 +75,12 @@ public class Enemy3 : MonoBehaviour
         
       }
     }
-    transform.Translate(Vector2.up * Time.deltaTime * 1);
+    float distance = Mathf.Sqrt(Mathf.Pow(Mathf.Abs(player.transform.position.x - transform.position.x), 2) + Mathf.Pow(Mathf.Abs(player.transform.position.y - transform.position.y), 2));
+    if (distance <= 10) { act = true; }
+    if (act)
+    {
+      transform.Translate(Vector2.up * Time.deltaTime * 1);
+    }
   }
   public void damage()
   {

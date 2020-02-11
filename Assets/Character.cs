@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 public class Character : MonoBehaviour  
 {
     public Object prefab;
-    float lockPos;
+  public Object prefab1;
+  public Object prefab2;
+  public Object prefab3;
+
+  float lockPos;
   public int health;
   public int cbc = 0;
     Vector2 up;
@@ -14,6 +18,7 @@ public class Character : MonoBehaviour
     Vector2 right;
   int nhealth = 3;
   int ttime = 0;
+  public int rat = 0;
   bool cont = true;
     // Start is called before the first frame update
     void Start()
@@ -102,7 +107,20 @@ public class Character : MonoBehaviour
       {
         transform.position += new Vector3(.12f, 0, 0);
       }
-
+      if (Input.GetKey(KeyCode.R)&& rat == 0)
+      {
+        rat += 1;
+      }else if (Input.GetKey(KeyCode.A) && rat == 1)
+      {
+        rat += 1;
+      }else if (Input.GetKey(KeyCode.T) && rat == 2)
+      {
+        rat += 1;
+        Sprite myFruit = Resources.Load("rat", typeof(Sprite)) as Sprite;
+        transform.GetComponent<SpriteRenderer>().sprite = myFruit;
+        transform.localScale += new Vector3(.9f, .9f, .9f);
+      }
+      
     }
     else
     {
@@ -169,7 +187,29 @@ public class Character : MonoBehaviour
   }
   private void OnCollisionEnter2D(Collision2D collision)
   {
-    if (collision.collider.CompareTag("EBullet"))
+    if (collision.collider.tag == "Speed")
+    {
+      prefab = prefab1;
+      Destroy(collision.collider.gameObject);
+      Sprite myFruit = Resources.Load("Speed", typeof(Sprite)) as Sprite;
+      transform.GetComponent<SpriteRenderer>().sprite = myFruit;
+    }
+    if (collision.collider.tag == "Shot")
+    {
+      prefab = prefab2;
+      Destroy(collision.collider.gameObject);
+      Sprite myFruit = Resources.Load("Shot", typeof(Sprite)) as Sprite;
+      transform.GetComponent<SpriteRenderer>().sprite = myFruit;
+    }
+    if (collision.collider.tag == "Snip")
+    {
+      prefab = prefab3;
+      Destroy(collision.collider.gameObject);
+      Sprite myFruit = Resources.Load("Snip", typeof(Sprite)) as Sprite;
+      transform.GetComponent<SpriteRenderer>().sprite = myFruit;
+    }
+    
+    if (collision.collider.CompareTag("EBullet") || (collision.collider.CompareTag("Enemy") && collision.collider.name != "PI"))
     {
       nhealth -= 1;
       

@@ -14,10 +14,18 @@ public class Speeder : Bullet
     }
   void OnCollisionEnter2D(Collision2D collision)
   {
-    collisioner(collision);
-    if (collisioner(collision) != 'X')
+    
+    char col = collisioner(collision);
+    
+    if (col != 'X')
     {
+
+      
       speed = speed * 2;
     }
+
+
+    
+
   }
 }
