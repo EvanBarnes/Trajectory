@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class mapgen : MonoBehaviour
 {
   // Start is called before the first frame update
   List<int> x = new List<int>();
   int[,] z = new int[10, 10];
-  gtile[,] tileList;
+  gtile[,] tileList = new gtile[10,10];
+  GameObject[,] mList = new GameObject[10, 10];
+  GameObject ack;
   void Start()
   {
+    ack = gameObject;
     for (int i = 0; i < 20; i++) { x.Add(1); }
 
     for (int i = 0; i < 10; i++)
@@ -42,7 +46,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q + 1] == 0)
               {
                 z[i, q] = 0;
-                print("1zucked" + i + q);
+                //print("1zucked" + i + q);
               }
             }
             else if (q == 10)
@@ -50,7 +54,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q - 1] == 0)
               {
                 z[i, q] = 0;
-                print("2zucked" + i + q);
+                //print("2zucked" + i + q);
 
               }
 
@@ -60,7 +64,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q - 1] == 0 && z[i, q + 1] == 0)
               {
                 z[i, q] = 0;
-                print("3zucked" + i + q);
+                //print("3zucked" + i + q);
 
               }
             }
@@ -72,7 +76,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q + 1] == 0 && z[i - 1, q] == 0)
               {
                 z[i, q] = 0;
-                print("4zucked" + i + q);
+                //print("4zucked" + i + q);
 
               }
             }
@@ -81,7 +85,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q - 1] == 0 && z[i - 1, q] == 0)
               {
                 z[i, q] = 0;
-                print("5zucked" + i + q);
+                //print("5zucked" + i + q);
 
               }
             }
@@ -90,7 +94,7 @@ public class mapgen : MonoBehaviour
               if (z[i, q - 1] == 0 && z[i, q + 1] == 0 && z[i - 1, q] == 0)
               {
                 z[i, q] = 0;
-                print("6zucked" + i + q);
+                //print("6zucked" + i + q);
 
               }
             }
@@ -139,30 +143,41 @@ public class mapgen : MonoBehaviour
       Debug.Log(arrayString);
       arrayString = "";
     }
+    int ct = 0;
     for (int i = 0; i < rowLength; i++)
     {
       for (int j = 0; j < colLength; j++)
       {
+        ct++;
         Vector3 k = new Vector3();
         k.x = 20 * j;
         k.y = -17 * i;
-        gtile g;
+        
         if (z[i, j] == 1)
         {
           
           
 
-          g = new gtile(Random.Range(0, 6), k, Random.Range(0, 14));
           
-
+          gtile g = gameObject.AddComponent<gtile>() as gtile;
+          g.sGtile(Random.Range(0, 6), k, Random.Range(0, 4),ct);
+          
+          tileList[i, j] = g;
+          
         }
         else
-        {
-          g = new gtile(k);
+        { 
+          gtile g = gameObject.AddComponent<gtile>() as gtile;
+          g.sGtile(k);
+          
+          tileList[i, j] = g;
+          print(tileList[i, j]);
         }
-        tileList[i, j] = g;
+        
       }
     }
+    print(tileList[0, 0]);
+    genMap(tileList);
   }
   int binack()
   {
@@ -170,35 +185,226 @@ public class mapgen : MonoBehaviour
     return (x[p]);
     
   }
-    // Update is called once per frame
-    void Update()
+  public void genMap(gtile[,] tileList)
+  {
+    print("begin map gen");
+    int rowLength = z.GetLength(0);
+    int colLength = z.GetLength(1);
+    int istep = -240;
+    int jstep = 0;
+    int ct = 0;
+    for (int i = 0; i < rowLength; i++)
+    {
+      for (int j = 0; j < colLength; j++)
+      {
+        
+        if (z[i,j] == 1)
+        {
+          istep += 50;
+          //print(tileList[i, j]);
+          int mtype = tileList[i, j].getMPlace();
+          //GameObject q = Instantiate(Resources.Load("gridTemplates/Grid (" + mtype + ")") as GameObject);
+          
+          //q.name = ("" + ct);
+          ct ++;
+          //q.transform.SetParent(transform);
+          Vector3 r = new Vector3(istep, jstep);
+
+          //print(i + " " + j);
+        }
+
+
+      }
+      istep = -240;
+      jstep -= 50;
+
+    }
+  }
+  // Update is called once per frame
+  void Update()
     {
         
     }
+  public void cfg()
+  {
+    int M = 10, N = 10;
+
+    int[,] grid = {
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 1, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 1, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        };
+
+    //print("Original Generation");
+    for (int i = 0; i < M; i++)
+    {
+      for (int j = 0; j < N; j++)
+      {
+        if (grid[i, j] == 0)
+        {
+          print(".");
+        }
+        else
+        {
+          //print("*");
+        }
+      }
+     
+    }
+    
+    nextGeneration(grid, M, N);
+  }
+  static void nextGeneration(int[,] grid,
+                             int M, int N)
+  {
+    int[,] future = new int[M, N];
+
+    for (int l = 1; l < M - 1; l++)
+    {
+      for (int m = 1; m < N - 1; m++)
+      {
+
+        int aliveNeighbours = 0;
+        for (int i = -1; i <= 1; i++)
+          for (int j = -1; j <= 1; j++)
+            aliveNeighbours +=
+                    grid[l + i, m + j];
+
+
+        aliveNeighbours -= grid[l, m];
+
+
+        if ((grid[l, m] == 1) &&
+                    (aliveNeighbours < 2))
+          future[l, m] = 0;
+
+        else if ((grid[l, m] == 1) &&
+                     (aliveNeighbours > 3))
+          future[l, m] = 0;
+
+        else if ((grid[l, m] == 0) &&
+                    (aliveNeighbours == 3))
+          future[l, m] = 1;
+
+        else
+          future[l, m] = grid[l, m];
+      }
+    }
+
+    //print("Next Generation");
+    for (int i = 0; i < M; i++)
+    {
+      for (int j = 0; j < N; j++)
+      {
+        if (future[i, j] == 0)
+          print(".");
+        else
+         print("*");
+      }
+      
+    }
+  }
 }
-class gtile : MonoBehaviour{
+public class mTile : MonoBehaviour
+{
   int type;
   int mplace;
   Vector3 pos;
   GameObject gobj;
-  bool ttile;
-
-  public gtile(int type, Vector3 pos, int mplace)
+  bool ttile = false;
+  int ct;
+  int ents;
+  int x = 0;
+  int y = 300;
+  public bool getTTile()
   {
+    return ttile;
+  }
+  public int getMPlace()
+  {
+    return mplace;
+  }
+  public void mGTile(int type, Vector3 pos, int mplace, int ct, int ents)
+  {
+
     this.type = type;
     this.pos = pos;
     this.mplace = mplace;
     this.ttile = true;
-    this.gobj = Instantiate(Resources.Load("gridTemplates/Grid (" +type + ")") as GameObject);
-    this.gobj.transform.position = this.pos;
+    this.ents = ents;
+    this.gobj = Instantiate(Resources.Load("Image1" ) as GameObject );
+    Texture2D tex = Resources.Load("map/Grid (" + this.ents + ")") as Texture2D;
+    Sprite im = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+    this.gobj.GetComponent<Image>().sprite = (im);
+    this.gobj.transform.SetParent(gameObject.transform);
+    this.gobj.transform.position = this.pos + new Vector3(x,y,0); 
+    this.gobj.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+    this.ct = ct;
+    this.gobj.name = "" + ct;
     
   }
-  public gtile(Vector3 pos)
+
+}
+public class gtile : MonoBehaviour
+{
+  int type;
+  int mplace;
+  int ents;
+  Vector3 pos;
+  GameObject gobj;
+  bool ttile = false;
+  int ct;
+  public bool getTTile()
+  {
+    return ttile;
+  }
+  public int getMPlace()
+  {
+    return mplace;
+  }
+
+  public void sGtile(int type, Vector3 pos, int mplace, int ct)
+  {
+    this.type = type;
+    this.pos = pos;
+    this.mplace = mplace;
+
+    this.ents = Random.Range(1, 4);
+    this.ttile = true;
+    this.gobj = Instantiate(Resources.Load("gridTemplates/Grid (" + type + ")") as GameObject);
+    this.gobj.transform.position = this.pos;
+    
+    this.ct = ct;
+    this.gobj.name = "" +ct;
+    setsht();
+
+  }
+  
+  public void sGtile(Vector3 pos)
   {
     this.type = 7;
     this.pos = pos;
+    this.ents = 0;
+    setsht();
   }
-
-
-}
+  public void setsht()
+  {
+    print("hi");
+    mTile g = gameObject.AddComponent<mTile>() as mTile;
+    g.mGTile(this.type, new Vector3(this.pos.x/2f,this.pos.y/1.75f,0), this.mplace, this.ct, this.ents);
+  }
+  public override string ToString()
+  {
+    return ("pos: " + this.pos + System.Environment.NewLine + "type: " + this.type + System.Environment.NewLine + "mplace: " + this.mplace);
+    
+    
+  }
+  }
 

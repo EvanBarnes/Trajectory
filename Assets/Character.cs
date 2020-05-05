@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
   int nhealth = 3;
   int ttime = 0;
   public int rat = 0;
-  bool cont = true;
+  bool cont = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -124,7 +124,7 @@ public class Character : MonoBehaviour
     }
     else
     {
-      print(ttime);
+
       if (Input.GetAxis("Trigger1")>.9 && ttime<0)
       {
 
