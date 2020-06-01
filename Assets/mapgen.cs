@@ -11,7 +11,7 @@ public class mapgen : MonoBehaviour
   gtile[,] tileList = new gtile[10,10];
   GameObject[,] mList = new GameObject[10, 10];
   GameObject ack;
-  mTile[,] pMTile = new mTile[10, 10];
+  gtile[,] pMTile = new gtile[10, 10];
 
   void Start()
   {
@@ -326,7 +326,7 @@ public class mTile : MonoBehaviour
   public int ents;
   int x = 0;
   int y = 300;
-  public int[] rotary = new int[5];
+  public int rot = 0;
 
   public bool getTTile()
   {
@@ -336,7 +336,7 @@ public class mTile : MonoBehaviour
   {
     return mplace;
   }
-  public void mGTile(int type, Vector3 pos, int mplace, int ct, int ents, int[] rotary)
+  public void mGTile(int type, Vector3 pos, int mplace, int ct, int ents, int rot)
   {
 
     this.type = type;
@@ -353,13 +353,12 @@ public class mTile : MonoBehaviour
     this.gobj.transform.position = this.pos + new Vector3(x,y,0); 
     this.gobj.transform.localScale = new Vector3(0.1f, 0.1f, 1);
     this.ct = ct;
-    this.rotary = rotary;
+    this.rot = rot;
     this.gobj.name = "" + ct;
-    if (this.ents != 0)
-    {
+    
 
-      this.gobj.transform.Rotate(new Vector3(0,0,90*this.rotary[this.ents-1]));
-    }
+     this.gobj.transform.Rotate(new Vector3(0,0,90*this.rot));
+    
   }
 
 }
@@ -374,21 +373,32 @@ public class gtile : MonoBehaviour
   int ct;
   int curx;
   int cury;
-  mTile[,] mtiles = new mTile[10, 10];
+  int rot;
+  int dAv;
+  int rAv;
+  gtile[,] mtiles = new gtile[10, 10];
   public bool getTTile()
   {
     return ttile;
+  }
+  public int getDAv()
+  {
+    return dAv;
+  }
+  public int getRAv()
+  {
+    return rAv;
   }
   public int getMPlace()
   {
     return mplace;
   }
-  public mTile[,] getMTiles()
+  public gtile[,] getMTiles()
   {
     return mtiles;
   }
 
-  public void sGtile(int type, Vector3 pos, int mplace, int ct, int curx, int cury, mTile[,] mtiles)
+  public void sGtile(int type, Vector3 pos, int mplace, int ct, int curx, int cury, gtile[,] mtiles)
   {
 
     this.type = type;
@@ -408,7 +418,7 @@ public class gtile : MonoBehaviour
 
   }
   
-  public void sGtile(Vector3 pos, int curx, int cury, mTile[,] mtiles)
+  public void sGtile(Vector3 pos, int curx, int cury, gtile[,] mtiles)
   {
     this.mtiles = mtiles;
     this.type = 7;
@@ -420,279 +430,241 @@ public class gtile : MonoBehaviour
   }
   public void setsht()
   {
-    print("hi");
-    mTile g = gameObject.AddComponent<mTile>() as mTile;
-    
-    int[] x = new int[5];
-    for (int v = 0; v < 4; v++)
+    print(mtiles[0, 0]);
+    gtile ltile;
+    gtile utile;
+    int[] pEnts = new int[5];
+    int[] pRots = new int[5];
+    int pLAv;
+    int pUAv;
+   
+    //print("hi");
+    if (curx != 0)
     {
-      mTile lTile;
-      mTile uTile;
-      if (curx == 0)
+      ltile = mtiles[curx - 1, cury];
+    }
+    else
+    {
+      ltile = null;
+    }
+
+    if (cury != 0)
+    {
+      utile = mtiles[curx, cury - 1];
+    }
+    else
+    {
+      utile = null;
+    }
+
+    if(ltile != null)
+    {
+      pUAv = ltile.getDAv();
+    }
+    else
+    {
+      pUAv = 0;
+    }
+    
+    if (ltile != null)
+    {
+      pLAv = ltile.getRAv();
+    }
+    else
+    {
+      pLAv = 0;
+    }
+    print(pUAv);
+    print(pLAv);
+    for (int i = 0; i<5; i++)
+    {
+      pEnts[i] = i;
+
+    }
+    for (int i = 0; i < 4; i++)
+    {
+      pRots[i] = i;
+
+    } 
+    print("(" + curx + ", " + cury + "): (" + pLAv + ", " + pUAv + ")");
+    if (pLAv ==1 || pUAv == 1)
+    {
+      pEnts[0] = -1;
+    }
+    if (pLAv == 0 || pUAv == 0)
+    {
+      pEnts[1] = -1;
+    }
+    if((pLAv==1 && pUAv == 1) || (pLAv ==0 && pUAv == 0))
+    {
+      pEnts[2] = -1;
+    }
+    if ((pLAv == 1 && pUAv == 1) || (pLAv == 0 && pUAv == 0))
+    {
+      pEnts[4] = -1;
+    }
+    while (true)
+    {
+      int x = Random.Range(0, 4);
+      if (pEnts[x] >= 0)
       {
-
-        x[1] = 5;
-        continue;
-      }
-      else
-      {
-
-        lTile = mtiles[curx - 1, cury];
-      }
-      if (cury == 0)
-      {
-        x[1] = 5;
-
-        continue;
-      }
-      else
-      {
-        uTile = mtiles[curx, cury - 1];
-
-      }
-
-      if (v == 1)
-      {
-        print(curx);
-        print(cury);
-        if (cury == 0 || cury == 9 || curx == 0 || curx == 9)
-        {
-          x[v] = 5;
-          continue;
-        }
-
-        print(mtiles[cury - 1, 1]);
-        if (uTile.ents == 0)
-        {
-          x[v] = 5;
-          continue;
-        }
-        if (lTile.ents == 0)
-        {
-          x[v] = 5;
-          continue;
-        }
-        if (lTile.ents == 1)
-        {
-          if (uTile.ents == 1)
-          {
-            x[v] = Random.Range(0, 3);
-            continue;
-          }
-          if (uTile.ents == 2)
-          {
-            if (uTile.rotary[1] != 0)
-            {
-              x[v] = 5;
-              continue;
-            }
-            else
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-          }
-          if (uTile.ents == 2)
-          {
-            if (uTile.rotary[2] != 0 || uTile.rotary[2] != 1)
-            {
-              x[v] = 5;
-              continue;
-            }
-            else
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-          }
-          if (uTile.rotary[3] != 0 || uTile.rotary[3] != 2)
-          {
-            x[v] = 5;
-            continue;
-          }
-          else
-          {
-            x[v] = Random.Range(0, 3);
-            continue;
-          }
-        }
-        if (lTile.ents == 2)
-        {
-          if (lTile.rotary[1] != 3)
-          {
-            x[v] = 5;
-            continue;
-          }
-          else
-          {
-            if (uTile.ents == 1)
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[1] != 0)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                x[v] = 5;
-                continue;
-              }
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[2] != 0 || uTile.rotary[2] != 1)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                continue;
-              }
-            }
-            if (uTile.rotary[3] != 0 || uTile.rotary[3] != 2)
-            {
-              x[v] = 5;
-              continue;
-            }
-            else
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-          }
-
-        }
-        if (lTile.ents == 3)
-        {
-          if (lTile.rotary[2] != 0 || lTile.rotary[2] != 1)
-          {
-            x[v] = 5;
-            continue;
-          }
-          else
-          {
-            if (uTile.ents == 1)
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[1] != 0)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                continue;
-              }
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[2] != 0 || uTile.rotary[2] != 1)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                continue;
-              }
-            }
-            if (uTile.rotary[3] != 0 || uTile.rotary[3] != 2)
-            {
-              x[v] = 5;
-              continue;
-            }
-            else
-            {
-              x[v] = Random.Range(0, 3);
-              x[v] = 5;
-              continue;
-            }
-          }
-        }
-        if (lTile.ents == 4)
-        {
-          if (lTile.rotary[3] != 0 || lTile.rotary[3] != 2)
-          {
-            x[v] = 5;
-            continue;
-          }
-          else
-          {
-            if (uTile.ents == 1)
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[1] != 0)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                continue;
-              }
-            }
-            if (uTile.ents == 2)
-            {
-              if (uTile.rotary[2] != 0 || uTile.rotary[2] != 1)
-              {
-                x[v] = 5;
-                continue;
-              }
-              else
-              {
-                x[v] = Random.Range(0, 3);
-                continue;
-              }
-            }
-            if (uTile.rotary[3] != 0 || uTile.rotary[3] != 2)
-            {
-              x[v] = 5;
-              continue;
-            }
-            else
-            {
-              x[v] = Random.Range(0, 3);
-              continue;
-            }
-          }
-        }
-        if (v == 2)
-        {
-         
-        }
+        this.ents = x;
+        break;
       }
     }
-        g.mGTile(this.type, new Vector3(this.pos.x / 2f, this.pos.y / 1.75f, 0), this.mplace, this.ct, this.ents, x);
-        print("t:" + curx);
-        print("t:" + cury);
+    if(this.ents == 2)
+    {
+      if(pLAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[2] = -1;
+        pRots[3] = -1;
+      }
+      else if(pUAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[1] = -1;
+        pRots[3] = -1;
+      }
+      else
+      {
+        pRots[1] = -1;
+        pRots[2] = -1;
+        
+      }
 
-        mtiles[curx, cury] = g;
-        print("t:" + mtiles[curx, cury]);
+    }
+    if(this.ents == 3)
+    {
+      if(pLAv == 1 && pUAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[1] = -1;
+        pRots[3] = -1;
+      }else if(pLAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[2] = -1;
+        pRots[3] = -1;
+      }
+      else if (pUAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[1] = -1;
+        pRots[2] = -1;
+      }
+      else
+      {
+        
+        pRots[1] = -1;
+        pRots[2] = -1;
+        pRots[3] = -1;
+        
+      }
+    }
+    if(this.ents == 4)
+    {
+      if (pLAv == 1)
+      {
+        pRots[0] = -1;
+        pRots[2] = -1;
+        
+      }
+      else if (pUAv == 1)
+      {
+        
+        pRots[1] = -1;
+        pRots[3] = -1;
+      }
       
 
+    }
+
+    while (true)
+    {
+      int x = Random.Range(0, 3);
+      if(pRots[x] >= 0)
+      {
+        this.rot = x;
+        break;
+      }
+    }
+    mTile g = gameObject.AddComponent<mTile>() as mTile;
+
+
+    g.mGTile(this.type, new Vector3(this.pos.x / 2f, this.pos.y / 1.75f, 0), this.mplace, this.ct, this.ents, this.rot);
+
+    avPas();
+    mtiles[curx, cury] = this;
   }
   public void avPas()
   {
-    
+    if(this.ents == 0)
+    {
+      dAv = 0;
+      rAv = 0;
+    }
+    if(this.ents == 1)
+    {
+      dAv = 1;
+      rAv = 1;
+    }
+    if(this.ents == 2)
+    {
+      if(this.rot == 0)
+      {
+        dAv = 1;
+        rAv = 0;
+      }
+      if (this.rot == 1 || this.rot == 2)
+      {
+        dAv = 0;
+        rAv = 0;
+      }
+      if(this.rot == 3)
+      {
+        dAv = 0;
+        rAv = 1;
+      }
+    }
+    if(this.ents == 3)
+    {
+      if (this.rot == 0)
+      {
+        dAv = 1;
+        rAv = 1;
+      }
+      if(this.rot == 1)
+      {
+        dAv = 1;
+        rAv = 0;
+      }
+      if (this.rot == 2)
+      {
+        dAv = 0;
+        rAv = 0;
+      }
+      if (this.rot == 3)
+      {
+        dAv = 0;
+        rAv = 1;
+      }
+    }
+    if(this.ents == 4)
+    {
+      if(this.rot == 0 || this.rot == 2)
+      {
+        dAv = 1;
+        rAv = 0;
+      }
+      if (this.rot == 0 || this.rot == 3)
+      {
+        dAv = 0;
+        rAv = 1;
+      }
+    }
+    print("eee");
+    print(rAv);
   }
   public int[] remNum(int[] arr, int num)
   {
